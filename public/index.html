@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación Video Ronald</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Notification Toast -->
+        <div id="notification" class="notification hidden"></div>
+
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container glassmorphism">
+                <div class="login-header">
+                    <i class="fas fa-video logo-icon"></i>
+                    <h2>Video Ronald</h2>
+                    <p>Sistema de Gestión</p>
+                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Usuario" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Iniciar Sesión <i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard-screen" class="screen hidden">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <i class="fas fa-video logo-icon-small"></i>
+                    <h3>Video Ronald</h3>
+                </div>
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-target="dashboard-view"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="#" class="nav-item" data-target="products-view"><i class="fas fa-box"></i> Productos</a>
+                    <a href="#" class="nav-item" data-target="billing-view"><i class="fas fa-file-invoice-dollar"></i> Facturación</a>
+                </nav>
+                <div class="sidebar-footer">
+                    <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Salir</button>
+                </div>
+            </aside>
+            
+            <main class="main-content">
+                <header class="top-header">
+                    <h2 id="current-view-title">Inicio</h2>
+                    <div class="user-profile">
+                        <span id="user-display-name">Admin</span>
+                        <div class="avatar"><i class="fas fa-user"></i></div>
+                    </div>
+                </header>
+
+                <div class="content-area">
+                    <!-- Dashboard Home View -->
+                    <div id="dashboard-view" class="view active">
+                        <div class="welcome-card glass-card">
+                            <h1>Bienvenido al Sistema</h1>
+                            <p>Gestione su inventario y facturación de forma eficiente.</p>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-box-open stat-icon"></i>
+                                <div class="stat-info">
+                                    <h3>Productos</h3>
+                                    <p id="stat-products">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-file-invoice stat-icon"></i>
+                                <div class="stat-info">
+                                    <h3>Facturas Hoy</h3>
+                                    <p id="stat-invoices">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products View -->
+                    <div id="products-view" class="view hidden">
+                        <div class="action-bar">
+                            <button id="btn-new-product" class="btn-primary"><i class="fas fa-plus"></i> Nuevo Producto</button>
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="search-product" placeholder="Buscar producto...">
+                            </div>
+                        </div>
+                        <div class="table-container glass-card">
+                            <table id="products-table">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Billing View -->
+                    <div id="billing-view" class="view hidden">
+                        <div class="billing-layout">
+                            <!-- Left: Product Selection -->
+                            <div class="billing-products glass-card">
+                                <h3>Agregar a Factura</h3>
+                                <div class="search-box mb-1">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" id="billing-search" placeholder="Buscar para agregar...">
+                                </div>
+                                <div class="product-grid" id="billing-product-list">
+                                    <!-- Dynamic Products to add -->
+                                </div>
+                            </div>
+                            <!-- Right: Current Invoice -->
+                            <div class="billing-invoice glass-card">
+                                <h3>Factura Actual</h3>
+                                <div class="invoice-items" id="invoice-items">
+                                    <!-- Dynamic Invoice Items -->
+                                    <div class="empty-invoice">No hay productos en la factura.</div>
+                                </div>
+                                <div class="invoice-summary">
+                                    <div class="summary-row">
+                                        <span>Subtotal:</span>
+                                        <span id="invoice-subtotal">₡0</span>
+                                    </div>
+                                    <div class="summary-row total">
+                                        <span>Total:</span>
+                                        <span id="invoice-total">₡0</span>
+                                    </div>
+                                    <button id="btn-process-invoice" class="btn-primary w-100 mt-1" disabled><i class="fas fa-print"></i> Procesar Factura</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modals -->
+        <div id="product-modal" class="modal-overlay hidden">
+            <div class="modal glass-card">
+                <div class="modal-header">
+                    <h3 id="modal-title">Nuevo Producto</h3>
+                    <button class="btn-close-modal"><i class="fas fa-times"></i></button>
+                </div>
+                <form id="product-form">
+                    <input type="hidden" id="prod-id">
+                    <div class="form-group">
+                        <label>Código</label>
+                        <input type="text" id="prod-codigo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="prod-nombre" required>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Precio (₡)</label>
+                            <input type="number" id="prod-precio" required min="0">
+                        </div>
+                        <div class="col">
+                            <label>Stock</label>
+                            <input type="number" id="prod-stock" required min="0">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary btn-close-modal">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
